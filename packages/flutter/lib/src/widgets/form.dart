@@ -43,8 +43,8 @@ class Form extends StatefulWidget {
     this.onWillPop,
     this.onChanged,
     AutovalidateMode? autovalidateMode,
-  }) : assert(child != null),
-       autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
+  })  : assert(child != null),
+        autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   /// Returns the closest [FormState] which encloses the given context.
   ///
@@ -110,8 +110,7 @@ class FormState extends State<Form> {
   void _fieldDidChange() {
     widget.onChanged?.call();
 
-    _hasInteractedByUser = _fields
-        .any((FormFieldState<dynamic> field) => field._hasInteractedByUser.value);
+    _hasInteractedByUser = _fields.any((FormFieldState<dynamic> field) => field._hasInteractedByUser.value);
     _forceRebuild();
   }
 
@@ -200,8 +199,8 @@ class _FormScope extends InheritedWidget {
     required super.child,
     required FormState formState,
     required int generation,
-  }) : _formState = formState,
-       _generation = generation;
+  })  : _formState = formState,
+        _generation = generation;
 
   final FormState _formState;
 
@@ -268,8 +267,8 @@ class FormField<T> extends StatefulWidget {
     this.enabled = true,
     AutovalidateMode? autovalidateMode,
     this.restorationId,
-  }) : assert(builder != null),
-       autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
+  })  : assert(builder != null),
+        autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   /// An optional method to call with the final value when the form is saved via
   /// [FormState.save].
@@ -339,7 +338,7 @@ class FormField<T> extends StatefulWidget {
 /// The current state of a [FormField]. Passed to the [FormFieldBuilder] method
 /// for use in constructing the form field's widget.
 class FormFieldState<T> extends State<FormField<T>> with RestorationMixin {
-  late T? _value = widget.initialValue;
+  /*late*/ T? _value;
   final RestorableStringN _errorText = RestorableStringN(null);
   final RestorableBool _hasInteractedByUser = RestorableBool(false);
 
@@ -424,6 +423,12 @@ class FormFieldState<T> extends State<FormField<T>> with RestorationMixin {
   // ignore: use_setters_to_change_properties, (API predates enforcing the lint)
   void setValue(T? value) {
     _value = value;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.initialValue;
   }
 
   @override
